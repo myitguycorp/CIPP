@@ -164,6 +164,11 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'Authentication Methods',
+        to: '/tenant/administration/authentication-methods',
+      },
+      {
+        component: CNavItem,
         name: 'Tenant Onboarding',
         to: '/tenant/administration/tenant-onboarding',
       },
@@ -607,6 +612,11 @@ const _nav = [
         component: CNavItem,
         name: 'Mailboxes',
         to: '/email/administration/mailboxes',
+      },
+      {
+        component: CNavItem,
+        name: 'Deleted Mailboxes',
+        to: '/email/administration/deleted-mailboxes',
       },
       {
         component: CNavItem,

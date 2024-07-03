@@ -301,6 +301,12 @@
     "allowedRoles": ["admin", "editor", "readonly"]
   },
   {
+    "path": "/tenant/administration/authentication-methods",
+    "name": "Authentication Methods",
+    "component": "views/tenant/administration/AuthMethods",
+    "allowedRoles": ["admin", "editor", "readonly"]
+  },
+  {
     "path": "/tenant/conditional/deploy-vacation",
     "name": "Deploy Vacation Mode",
     "component": "views/tenant/conditional/DeployVacation",
@@ -784,6 +790,12 @@
     "name": "List Mailboxes",
     "path": "/email/administration/mailboxes",
     "component": "views/email-exchange/administration/MailboxesList",
+    "allowedRoles": ["admin", "editor", "readonly"]
+  },
+  {
+    "name": "Deleted Mailboxes",
+    "path": "/email/administration/deleted-mailboxes",
+    "component": "views/email-exchange/administration/DeletedMailboxes",
     "allowedRoles": ["admin", "editor", "readonly"]
   },
   {
