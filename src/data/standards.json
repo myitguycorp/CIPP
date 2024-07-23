@@ -225,6 +225,25 @@
     "recommendedBy": ["CIS"]
   },
   {
+    "name": "standards.AppDeploy",
+    "cat": "Entra (AAD) Standards",
+    "tag": ["lowimpact"],
+    "helpText": "Deploys selected applications to the tenant. Use a comma separated list of application IDs to deploy multiple applications. Permissions will be copied from the source application.",
+    "docsDescription": "Uses the CIPP functionality that deploys applications across an entire tenant base as a standard.",
+    "addedComponent": [
+      {
+        "type": "input",
+        "name": "standards.AppDeploy.appids",
+        "label": "Application IDs, comma separated"
+      }
+    ],
+    "label": "Deploy Application",
+    "impact": "Low Impact",
+    "impactColour": "info",
+    "powershellEquivalent": "Portal or Graph API",
+    "recommendedBy": []
+  },
+  {
     "name": "standards.laps",
     "cat": "Entra (AAD) Standards",
     "tag": ["lowimpact"],
@@ -522,8 +541,14 @@
     "name": "standards.DisableSelfServiceLicenses",
     "cat": "Entra (AAD) Standards",
     "tag": ["mediumimpact"],
-    "helpText": "This standard currently does not function and can be safely disabled",
-    "addedComponent": [],
+    "helpText": "This standard disables all self service licenses and enables all exclusions",
+    "addedComponent": [
+      {
+        "type": "input",
+        "name": "standards.DisableSelfServiceLicenses.Exclusions",
+        "label": "License Ids to exclude from this standard"
+      }
+    ],
     "label": "Disable Self Service Licensing",
     "impact": "Medium Impact",
     "impactColour": "warning",
@@ -1230,30 +1255,17 @@
             "value": "disable"
           }
         ]
+      },
+      {
+        "type": "input",
+        "name": "standards.UserSubmissions.email",
+        "label": "Destination email address"
       }
     ],
     "label": "Set the state of the built-in Report button in Outlook",
     "impact": "Medium Impact",
     "impactColour": "warning",
-    "powershellEquivalent": "New-ReportSubmissionPolicy or Set-ReportSubmissionPolicy",
-    "recommendedBy": []
-  },
-  {
-    "name": "standards.UserReportDestinationEmail",
-    "cat": "Exchange Standards",
-    "tag": ["mediumimpact"],
-    "helpText": "Sets the destination for email when users report them as spam or phishing. Works well together with the 'Set the state of the built-in Report button in Outlook standard'.",
-    "addedComponent": [
-      {
-        "type": "input",
-        "name": "standards.UserReportDestinationEmail.Email",
-        "label": "Destination email address"
-      }
-    ],
-    "label": "Set the destination email for user reported emails",
-    "impact": "Medium Impact",
-    "impactColour": "warning",
-    "powershellEquivalent": "New-ReportSubmissionRule or Set-ReportSubmissionRule",
+    "powershellEquivalent": "New-ReportSubmissionPolicy or Set-ReportSubmissionPolicy and New-ReportSubmissionRule or Set-ReportSubmissionRule",
     "recommendedBy": []
   },
   {
@@ -1268,6 +1280,25 @@
     "impactColour": "warning",
     "powershellEquivalent": "Get-Mailbox & Update-MgUser",
     "recommendedBy": ["CIS"]
+  },
+  {
+    "name": "standards.QuarantineRequestAlert",
+    "cat": "Defender Standards",
+    "tag": ["lowimpact"],
+    "helpText": "Sets a e-mail address to alert when a User requests to release a quarantined message.",
+    "docsDescription": "Sets a e-mail address to alert when a User requests to release a quarantined message. This is useful for monitoring and ensuring that the correct messages are released.",
+    "addedComponent": [
+      {
+        "type": "input",
+        "name": "standards.QuarantineRequestAlert.NotifyUser",
+        "label": "E-mail to receive the alert"
+      }
+    ],
+    "label": "Quarantine Release Request Alert",
+    "impact": "Low Impact",
+    "impactColour": "info",
+    "powershellEquivalent": "New-ProtectionAlert and Set-ProtectionAlert",
+    "recommendedBy": []
   },
   {
     "name": "standards.SafeLinksPolicy",
@@ -1651,6 +1682,129 @@
     "recommendedBy": ["CIS"]
   },
   {
+    "name": "standards.SpamFilterPolicy",
+    "cat": "Defender Standards",
+    "tag": ["mediumimpact"],
+    "helpText": "This standard creates a Spam filter policy similar to the default strict policy.",
+    "addedComponent": [
+      {
+        "type": "Select",
+        "label": "Spam Action",
+        "name": "standards.SpamFilterPolicy.SpamAction",
+        "values": [
+          {
+            "label": "Move message to Junk Email folder",
+            "value": "MoveToJmf"
+          },
+          {
+            "label": "Quarantine the message",
+            "value": "Quarantine"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "Spam Quarantine Tag",
+        "name": "standards.SpamFilterPolicy.SpamQuarantineTag",
+        "values": [
+          {
+            "label": "AdminOnlyAccessPolicy",
+            "value": "AdminOnlyAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessPolicy",
+            "value": "DefaultFullAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessWithNotificationPolicy",
+            "value": "DefaultFullAccessWithNotificationPolicy"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "High Confidence Spam Quarantine Tag",
+        "name": "standards.SpamFilterPolicy.HighConfidenceSpamQuarantineTag",
+        "values": [
+          {
+            "label": "AdminOnlyAccessPolicy",
+            "value": "AdminOnlyAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessPolicy",
+            "value": "DefaultFullAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessWithNotificationPolicy",
+            "value": "DefaultFullAccessWithNotificationPolicy"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "Bulk Quarantine Tag",
+        "name": "standards.SpamFilterPolicy.BulkQuarantineTag",
+        "values": [
+          {
+            "label": "AdminOnlyAccessPolicy",
+            "value": "AdminOnlyAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessPolicy",
+            "value": "DefaultFullAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessWithNotificationPolicy",
+            "value": "DefaultFullAccessWithNotificationPolicy"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "Phish Quarantine Tag",
+        "name": "standards.SpamFilterPolicy.PhishQuarantineTag",
+        "values": [
+          {
+            "label": "AdminOnlyAccessPolicy",
+            "value": "AdminOnlyAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessPolicy",
+            "value": "DefaultFullAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessWithNotificationPolicy",
+            "value": "DefaultFullAccessWithNotificationPolicy"
+          }
+        ]
+      },
+      {
+        "type": "Select",
+        "label": "High Confidence Phish Quarantine Tag",
+        "name": "standards.SpamFilterPolicy.HighConfidencePhishQuarantineTag",
+        "values": [
+          {
+            "label": "AdminOnlyAccessPolicy",
+            "value": "AdminOnlyAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessPolicy",
+            "value": "DefaultFullAccessPolicy"
+          },
+          {
+            "label": "DefaultFullAccessWithNotificationPolicy",
+            "value": "DefaultFullAccessWithNotificationPolicy"
+          }
+        ]
+      }
+    ],
+    "label": "Default Spam Filter Policy",
+    "impact": "Medium Impact",
+    "impactColour": "warning",
+    "powershellEquivalent": "New-HostedContentFilterPolicy or Set-HostedContentFilterPolicy",
+    "recommendedBy": []
+  },
+  {
     "name": "standards.intuneDeviceRetirementDays",
     "cat": "Intune Standards",
     "tag": ["lowimpact"],
@@ -1764,10 +1918,58 @@
     "name": "standards.DeletedUserRentention",
     "cat": "SharePoint Standards",
     "tag": ["lowimpact"],
-    "helpText": "Sets the retention period for deleted users OneDrive to 1 year/365 days",
-    "docsDescription": "When a OneDrive user gets deleted, the personal SharePoint site is saved for 1 year and data can be retrieved from it.",
-    "addedComponent": [],
-    "label": "Retain a deleted user OneDrive for 1 year",
+    "helpText": "Sets the retention period for deleted users OneDrive to the specified number of years. The default is 1 year.",
+    "docsDescription": "When a OneDrive user gets deleted, the personal SharePoint site is saved for selected time in years and data can be retrieved from it.",
+    "addedComponent": [
+      {
+        "type": "Select",
+        "name": "standards.DeletedUserRentention.Days",
+        "label": "Retention in years (Default 1)",
+        "values": [
+          {
+            "label": "1 year",
+            "value": "365"
+          },
+          {
+            "label": "2 years",
+            "value": "730"
+          },
+          {
+            "label": "3 years",
+            "value": "1095"
+          },
+          {
+            "label": "4 years",
+            "value": "1460"
+          },
+          {
+            "label": "5 years",
+            "value": "1825"
+          },
+          {
+            "label": "6 years",
+            "value": "2190"
+          },
+          {
+            "label": "7 years",
+            "value": "2555"
+          },
+          {
+            "label": "8 years",
+            "value": "2920"
+          },
+          {
+            "label": "9 years",
+            "value": "3285"
+          },
+          {
+            "label": "10 years",
+            "value": "3650"
+          }
+        ]
+      }
+    ],
+    "label": "Set deleted user retention time in OneDrive",
     "impact": "Low Impact",
     "impactColour": "info",
     "powershellEquivalent": "Update-MgBetaAdminSharepointSetting",
@@ -1790,6 +1992,90 @@
     "impactColour": "info",
     "powershellEquivalent": "Update-MgBetaAdminSharepointSetting",
     "recommendedBy": []
+  },
+  {
+    "name": "standards.SPAzureB2B",
+    "cat": "SharePoint Standards",
+    "tag": ["lowimpact", "CIS"],
+    "helpText": "Ensure SharePoint and OneDrive integration with Azure AD B2B is enabled",
+    "addedComponent": [],
+    "label": "Enable SharePoint and OneDrive integration with Azure AD B2B",
+    "impact": "Low Impact",
+    "impactColour": "info",
+    "powershellEquivalent": "Set-SPOTenant -EnableAzureADB2BIntegration $true",
+    "recommendedBy": ["CIS 3.0"]
+  },
+  {
+    "name": "standards.SPDisallowInfectedFiles",
+    "cat": "SharePoint Standards",
+    "tag": ["lowimpact", "CIS"],
+    "helpText": "Ensure Office 365 SharePoint infected files are disallowed for download",
+    "addedComponent": [],
+    "label": "Disallow downloading infected files from SharePoint",
+    "impact": "Low Impact",
+    "impactColour": "info",
+    "powershellEquivalent": "Set-SPOTenant -DisallowInfectedFileDownload $true",
+    "recommendedBy": ["CIS 3.0"]
+  },
+  {
+    "name": "standards.SPDisableLegacyWorkflows",
+    "cat": "SharePoint Standards",
+    "tag": ["lowimpact"],
+    "helpText": "Disables the creation of new SharePoint 2010 and 2013 classic workflows and removes the 'Return to classic SharePoint' link on modern SharePoint list and library pages.",
+    "addedComponent": [],
+    "label": "Disable Legacy Workflows",
+    "impact": "Low Impact",
+    "impactColour": "info",
+    "powershellEquivalent": "Set-SPOTenant -DisableWorkflow2010 $true -DisableWorkflow2013 $true -DisableBackToClassic $true",
+    "recommendedBy": []
+  },
+  {
+    "name": "standards.SPDirectSharing",
+    "cat": "SharePoint Standards",
+    "tag": ["mediumimpact", "CIS"],
+    "helpText": "Ensure default link sharing is set to Direct in SharePoint and OneDrive",
+    "addedComponent": [],
+    "label": "Default sharing to Direct users",
+    "impact": "Medium Impact",
+    "impactColour": "warning",
+    "powershellEquivalent": "Set-SPOTenant -DefaultSharingLinkType Direct",
+    "recommendedBy": ["CIS 3.0"]
+  },
+  {
+    "name": "standards.SPExternalUserExpiration",
+    "cat": "SharePoint Standards",
+    "tag": ["mediumimpact", "CIS"],
+    "helpText": "Ensure guest access to a site or OneDrive will expire automatically",
+    "addedComponent": [
+      {
+        "type": "number",
+        "name": "standards.SPExternalUserExpiration.Days",
+        "label": "Days until expiration (Default 60)"
+      }
+    ],
+    "label": "Set guest access to expire automatically",
+    "impact": "Medium Impact",
+    "impactColour": "warning",
+    "powershellEquivalent": "Set-SPOTenant -ExternalUserExpireInDays 30 -ExternalUserExpirationRequired $True",
+    "recommendedBy": ["CIS 3.0"]
+  },
+  {
+    "name": "standards.SPEmailAttestation",
+    "cat": "SharePoint Standards",
+    "tag": ["mediumimpact", "CIS"],
+    "helpText": "Ensure reauthentication with verification code is restricted",
+    "addedComponent": [
+      {
+        "type": "number",
+        "name": "standards.SPEmailAttestation.Days",
+        "label": "Require reauth every X Days (Default 15)"
+      }
+    ],
+    "label": "Require reauthentication with verification code",
+    "impact": "Medium Impact",
+    "impactColour": "warning",
+    "powershellEquivalent": "Set-SPOTenant -EmailAttestationRequired $true -EmailAttestationReAuthDays 15",
+    "recommendedBy": ["CIS 3.0"]
   },
   {
     "name": "standards.DisableAddShortcutsToOneDrive",
